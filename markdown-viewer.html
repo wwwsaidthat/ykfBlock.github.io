@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markdown 文档展示 - 我的个人博客</title>
+<link rel="stylesheet" href="styles.css">
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+<header class="site-header">
+<div class="container header-inner">
+<div class="logo">我的博客</div>
+<nav class="nav">
+<a href="index.html" class="nav-link">首页</a>
+<a href="posts.html" class="nav-link">文章</a>
+<a href="about.html" class="nav-link">关于</a>
+</nav>
+</div>
+</header>
+<main class="site-main">
+<section class="section">
+<div class="container">
+<article class="post-detail">
+<h1 class="post-title">Markdown 文档展示</h1>
+<div class="post-meta" id="markdown-file-name"></div>
+<div class="post-content" id="markdown-content"></div>
+</article>
+<a href="posts.html" class="button secondary">返回文章列表</a>
+</div>
+</section>
+</main>
+<footer class="site-footer">
+<div class="container footer-inner">
+<span>© <span id="year"></span> 我的个人博客</span>
+<span>Powered by GitHub Pages</span>
+</div>
+</footer>
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+function getMarkdownFileFromQuery() {
+  var params = new URLSearchParams(window.location.search);
+  return params.get("file");
+}
+function showMessage(message) {
+  var container = document.getElementById("markdown-content");
+  container.textContent = message;
+}
+function initMarkdownViewer() {
+  var file = getMarkdownFileFromQuery();
+  var nameEl = document.getElementById("markdown-file-name");
+  if (!file) {
+    nameEl.textContent = "未指定文件";
+    showMessage("请在链接后添加 ?file=posts/文件名.md 来指定要展示的 Markdown 文件，例如：markdown-viewer.html?file=posts/example.md");
+    return;
+  }
+  nameEl.textContent = file;
+  showMessage("正在加载文档...");
+  fetch(file).then(function(response) {
+    if (!response.ok) {
+      throw new Error("加载失败");
+    }
+    return response.text();
+  }).then(function(text) {
+    var container = document.getElementById("markdown-content");
+    container.innerHTML = marked.parse(text);
+  }).catch(function() {
+    showMessage("加载文档失败，请检查文件路径是否正确，以及文件是否已经上传到仓库。");
+  });
+}
+initMarkdownViewer();
+</script>
+</body>
+</html>
+
