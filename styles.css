@@ -104,8 +104,8 @@ align-items: center;
 }
 
 .hero-photo-img {
-width: 200px;
-height: 260px;
+width: 150px;
+height: 200px;
 object-fit: cover;
 border-radius: 18px;
 border: 1px solid rgba(56,189,248,0.9);
@@ -287,8 +287,8 @@ align-items: flex-start;
 width: 100%;
 }
 .hero-photo-img {
-width: 170px;
-height: 220px;
+width: 130px;
+height: 180px;
 }
 .hero-title {
 font-size: 24px;
